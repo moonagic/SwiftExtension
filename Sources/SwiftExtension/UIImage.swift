@@ -14,7 +14,7 @@ extension UIImage {
     
     /// convert image to base64 string
     /// - Returns:
-    func toBase64() -> String? {
+    open func toBase64() -> String? {
         guard let imageData = self.jpegData(compressionQuality: 0.9) else { return nil }
         return imageData.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
     }
@@ -23,7 +23,7 @@ extension UIImage {
     /// - Parameters:
     ///   - asset:
     ///   - complate: 
-    class func fetchFrom(asset: PHAsset, complate: @escaping (UIImage?) -> Void) {
+    open class func fetchFrom(asset: PHAsset, complate: @escaping (UIImage?) -> Void) {
         let manager = PHImageManager.default()
         let options = PHImageRequestOptions()
         options.isSynchronous = true
