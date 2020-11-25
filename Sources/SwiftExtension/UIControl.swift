@@ -13,7 +13,7 @@ extension UIControl {
     /// Typealias for UIControl closure.
     public typealias UIControlTargetClosure = (UIControl) -> ()
     
-    private class UIControlClosureWrapper: NSObject {
+    private class UIControlClosureWrapper {
         let closure: UIControlTargetClosure
         init(_ closure: @escaping UIControlTargetClosure) {
             self.closure = closure
