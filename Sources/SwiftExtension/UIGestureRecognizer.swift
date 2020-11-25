@@ -9,41 +9,71 @@ import Foundation
 import UIKit
 
 extension UIGestureRecognizer {
-    
-    /// Typealias for UIControl closure.
-    public typealias UIGestureEventClosure = (UIGestureRecognizer) -> ()
-    
-    private class UIControlClosureWrapper {
-        let closure: UIGestureEventClosure
-        init(_ closure: @escaping UIGestureEventClosure) {
+    @discardableResult convenience init(addToView targetView: UIView, closure: @escaping () -> Void) {
+        self.init()
+        
+        GestureTarget.add(gesture: self, closure: closure, toView: targetView)
+    }
+}
+
+fileprivate class GestureTarget: UIView {
+    class ClosureContainer {
+        weak var gesture: UIGestureRecognizer?
+        let closure: (() -> Void)
+        
+        init(closure: @escaping () -> Void) {
             self.closure = closure
         }
     }
     
-    private struct AssociatedKeys {
-        static var eventClosure = "eventClosure"
+    var containers = [ClosureContainer]()
+    
+    convenience init() {
+        self.init(frame: .zero)
+        isHidden = true
     }
     
-    private var eventClosure: UIGestureEventClosure? {
-        get {
-            guard let closureWrapper = objc_getAssociatedObject(self, &AssociatedKeys.eventClosure) as? UIControlClosureWrapper else { return nil }
-            return closureWrapper.closure
+    class func add(gesture: UIGestureRecognizer, closure: @escaping () -> Void,
+                   toView targetView: UIView) {
+        let target: GestureTarget
+        if let existingTarget = existingTarget(inTargetView: targetView) {
+            target = existingTarget
+        } else {
+            target = GestureTarget()
+            targetView.addSubview(target)
         }
-        set(newValue) {
-            guard let newValue = newValue else { return }
-            objc_setAssociatedObject(self, &AssociatedKeys.eventClosure, UIControlClosureWrapper(newValue), objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        let container = ClosureContainer(closure: closure)
+        container.gesture = gesture
+        target.containers.append(container)
+        
+        gesture.addTarget(target, action: #selector(GestureTarget.target(gesture:)))
+        targetView.addGestureRecognizer(gesture)
+    }
+    
+    class func existingTarget(inTargetView targetView: UIView) -> GestureTarget? {
+        for subview in targetView.subviews {
+            if let target = subview as? GestureTarget {
+                return target
+            }
+        }
+        return nil
+    }
+    
+    func cleanUpContainers() {
+        containers = containers.filter({ $0.gesture != nil })
+    }
+    
+    @objc func target(gesture: UIGestureRecognizer) {
+        cleanUpContainers()
+        
+        for container in containers {
+            guard let containerGesture = container.gesture else {
+                continue
+            }
+            
+            if gesture === containerGesture {
+                container.closure()
+            }
         }
     }
-    
-    @objc func closureAction() {
-        guard let eventClosure = eventClosure else { return }
-        eventClosure(self)
-    }
-    
-    
-    open class func initWith(actionBlock: @escaping UIGestureEventClosure) -> UIGestureRecognizer {
-        let ges = UIGestureRecognizer(target: self, action: #selector(UIGestureRecognizer.closureAction))
-        return ges
-    }
-    
 }
