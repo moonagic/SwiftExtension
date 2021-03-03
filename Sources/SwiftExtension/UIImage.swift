@@ -51,6 +51,21 @@ extension UIImage {
         }
         return nil
     }
+    
+    /// 获取UIImage中存在的二维码
+    /// - Returns: 二维码对应的数据数组
+    func parseQR() -> [String] {
+        guard let image = CIImage(image: self) else {
+            return []
+        }
+        let detector = CIDetector(ofType: CIDetectorTypeQRCode,
+                                  context: nil,
+                                  options: [CIDetectorAccuracy: CIDetectorAccuracyHigh])
+        let features = detector?.features(in: image) ?? []
+        return features.compactMap { feature in
+            return (feature as? CIQRCodeFeature)?.messageString
+        }
+    }
 
     
 }
