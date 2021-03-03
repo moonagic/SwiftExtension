@@ -14,7 +14,7 @@ extension UIImage {
     
     /// convert image to base64 string
     /// - Returns:
-    open func toBase64() -> String? {
+    public func toBase64() -> String? {
         guard let imageData = self.jpegData(compressionQuality: 0.9) else { return nil }
         return imageData.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
     }
@@ -23,7 +23,7 @@ extension UIImage {
     /// - Parameters:
     ///   - asset:
     ///   - complate: 
-    open class func fetchFrom(asset: PHAsset, complate: @escaping (UIImage?) -> Void) {
+    public class func fetchFrom(asset: PHAsset, complate: @escaping (UIImage?) -> Void) {
         let manager = PHImageManager.default()
         let options = PHImageRequestOptions()
         options.isSynchronous = true
@@ -39,7 +39,7 @@ extension UIImage {
     ///   - color:
     ///   - size:
     /// - Returns:
-    open class func imageWithColor(color: UIColor, size: CGSize) -> UIImage? {
+    public class func imageWithColor(color: UIColor, size: CGSize) -> UIImage? {
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         if let context = UIGraphicsGetCurrentContext() {
@@ -54,7 +54,7 @@ extension UIImage {
     
     /// 获取UIImage中存在的二维码
     /// - Returns: 二维码对应的数据数组
-    func parseQR() -> [String] {
+    public func parseQR() -> [String] {
         guard let image = CIImage(image: self) else {
             return []
         }

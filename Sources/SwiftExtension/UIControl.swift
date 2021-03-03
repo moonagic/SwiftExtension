@@ -40,7 +40,7 @@ extension UIControl {
         targetClosure(self)
     }
     
-    open func addAction(for event: UIControl.Event, closure: @escaping UIControlTargetClosure) {
+    public func addAction(for event: UIControl.Event, closure: @escaping UIControlTargetClosure) {
         targetClosure = closure
         addTarget(self, action: #selector(UIControl.closureAction), for: event)
     }

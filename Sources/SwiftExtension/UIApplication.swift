@@ -12,7 +12,7 @@ extension UIApplication {
     
     /// 获取keyWindow的兼容函数
     /// - Returns: keyWindow
-    func getKeyWindow() -> UIWindow? {
+    public func getKeyWindow() -> UIWindow? {
         if #available(iOS 13, *) {
             return UIApplication.shared.connectedScenes
                 .filter({$0.activationState == .foregroundActive})

@@ -18,7 +18,7 @@ extension UIViewController {
         return presentingIsModal || presentingIsNavigation || presentingIsTabBar
     }
     
-    func topMostViewController() -> UIViewController? {
+    public func topMostViewController() -> UIViewController? {
         if self.presentedViewController == nil {
             return self
         }
