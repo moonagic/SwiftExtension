@@ -31,5 +31,10 @@ extension UIColor {
     public convenience init(rgba: Int) {
         self.init(red: Int((rgba >> 24) & 0xFF), green: Int((rgba >> 16) & 0xFF), blue: Int((rgba >> 8) & 0xFF), alpha: Int(rgba & 0xFF))
     }
+    
+    @available(iOS 10.0, *)
+    public func randomColor() -> UIColor {
+        return UIColor(displayP3Red: CGFloat.random(in: 0..<1), green: CGFloat.random(in: 0..<1), blue: CGFloat.random(in: 0..<1), alpha: 1)
+    }
 
 }
