@@ -68,4 +68,8 @@ extension String {
         return h
     }
     
+    public func aabb() -> String {
+        return "aabb"
+    }
+    
 }
