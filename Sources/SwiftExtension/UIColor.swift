@@ -33,7 +33,7 @@ extension UIColor {
     }
     
     @available(iOS 10.0, *)
-    public func randomColor() -> UIColor {
+    public class func randomColor() -> UIColor {
         return UIColor(displayP3Red: CGFloat.random(in: 0..<1), green: CGFloat.random(in: 0..<1), blue: CGFloat.random(in: 0..<1), alpha: 1)
     }
 
