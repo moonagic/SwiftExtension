@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+@available(iOSApplicationExtension, unavailable)
 extension UIApplication {
     
     /// 获取keyWindow的兼容函数
