@@ -3,7 +3,6 @@
 //  Client
 //
 //  Created by Moon on 11/23/20.
-//  Copyright © 2020 跃医通科技. All rights reserved.
 //
 
 import Foundation

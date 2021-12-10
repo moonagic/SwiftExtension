@@ -11,7 +11,7 @@ public extension Decodable {
   /// 统一的decode方法
   /// - Parameter content: json
   /// - Returns: 对应的decodable对象
-  public static func Decode(content: String?) -> Self? {
+  static func Decode(content: String?) -> Self? {
     guard let data = content?.data(using: .utf8) else { return nil }
     return Decode(data: data)
   }
@@ -19,7 +19,7 @@ public extension Decodable {
   /// 统一的decode方法
   /// - Parameter data: data
   /// - Returns: 对应的decodable对象
-  public static func Decode(data: Data) -> Self? {
+  static func Decode(data: Data) -> Self? {
     do {
       return try JSONDecoder().decode(self, from: data)
     } catch let DecodingError.dataCorrupted(context) {
