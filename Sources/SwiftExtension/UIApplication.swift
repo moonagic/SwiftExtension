@@ -14,12 +14,13 @@ public extension UIApplication {
   /// - Returns: keyWindow
   func getKeyWindow() -> UIWindow? {
     if #available(iOS 13, *) {
-      return UIApplication.shared.connectedScenes
-        .filter { $0.activationState == .foregroundActive }
-        .map { $0 as? UIWindowScene }
-        .compactMap { $0 }
-        .first?.windows
-        .filter(\.isKeyWindow).first
+      return UIApplication
+        .shared
+        .connectedScenes
+        .compactMap { $0 as? UIWindowScene }
+        .first?.windows.first {
+          $0.isKeyWindow
+        }
     } else {
       return self.keyWindow
     }
