@@ -16,7 +16,7 @@ public extension UIImage {
     guard let imageData = jpegData(compressionQuality: 0.9) else { return nil }
     return imageData.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
   }
-    
+
   /// fetch image with PHAsset
   /// - Parameters:
   ///   - asset:
@@ -31,7 +31,7 @@ public extension UIImage {
       complate(result)
     })
   }
-    
+
   /// Create UIImage with color
   /// - Parameters:
   ///   - color:
@@ -49,16 +49,18 @@ public extension UIImage {
     }
     return nil
   }
-    
+
   /// 获取UIImage中存在的二维码
   /// - Returns: 二维码对应的数据数组
   func parseQR() -> [String] {
     guard let image = CIImage(image: self) else {
       return []
     }
-    let detector = CIDetector(ofType: CIDetectorTypeQRCode,
-                              context: nil,
-                              options: [CIDetectorAccuracy: CIDetectorAccuracyHigh])
+    let detector = CIDetector(
+      ofType: CIDetectorTypeQRCode,
+      context: nil,
+      options: [CIDetectorAccuracy: CIDetectorAccuracyHigh]
+    )
     let features = detector?.features(in: image) ?? []
     return features.compactMap { feature in
       (feature as? CIQRCodeFeature)?.messageString

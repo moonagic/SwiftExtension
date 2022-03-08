@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Torghast on 10/20/21.
 //
@@ -15,7 +15,7 @@ public extension Decodable {
     guard let data = content?.data(using: .utf8) else { return nil }
     return Decode(data: data)
   }
-  
+
   /// 统一的decode方法
   /// - Parameter data: data
   /// - Returns: 对应的decodable对象
